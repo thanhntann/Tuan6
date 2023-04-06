@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Casio </title>
+	<link rel="stylesheet" href="C:\Users\PHAM THANH TAN\Tuan6\mattinh.css">
+</head>
+<body>
+	<div class="calculator">
+    <input class="result" type="text" value="0" disabled>
+    <div class="buttons">
+      <button class="operator" data-operator="add">+</button>
+      <button class="operator" data-operator="subtract">-</button>
+      <button class="operator" data-operator="multiply">×</button>
+      <button class="operator" data-operator="divide">÷</button>
+      <button class="number" data-number="1">1</button>
+      <button class="number" data-number="2">2</button>
+      <button class="number" data-number="3">3</button>
+      <button class="number" data-number="4">4</button>
+      <button class="number" data-number="5">5</button>
+      <button class="number" data-number="6">6</button>
+      <button class="number" data-number="7">7</button>
+      <button class="number" data-number="8">8</button>
+      <button class="number" data-number="9">9</button>
+      <button class="number" data-number="0">0</button>
+      <button class="decimal">.</button>
+      <button class="equals">=</button>
+      <button class="clear">C</button>
+    </div>
+  </div>  
+</body>
+<script>
+  const result = document.querySelector('.result');
+let currentNumber = '';
+let previousNumber = '';
+let currentOperator = null;
+let shouldReset = false;
+
+document.querySelectorAll('.number').forEach(number => {
+  number.addEventListener('click', () => {
+    if (shouldReset) {
+      reset();
+    }
+    currentNumber += number.dataset.number;
+    updateResult();
+  });
+});
+
+document.querySelectorAll('.operator').forEach(operator => {
+  operator.addEventListener('click', () => {
+    applyOperator(operator.dataset.operator);
+  });
+});
+
+document.querySelector('.decimal').addEventListener('click', () => {
+  if (shouldReset) {
+    reset();
+  }
+  if (currentNumber.includes('.')) {
+    return;
+  }
+  currentNumber += '.';
+  updateResult();
+});
+
+document.querySelector('.clear').addEventListener('click', () => {
+  reset();
+  updateResult();
+});
+
+document.querySelector('.equals').addEventListener('click', () => {
+  calculate();
+});
+
+function applyOperator(operator) {
+  if (currentOperator !== null) {
+    calculate();
+  }
+  currentOperator = operator;
+  previousNumber = currentNumber;
+  currentNumber = '';
+}
+
+function calculate() {
+  if (currentOperator === null || shouldReset) {
+    return;
+  }
+  const previous = parseFloat(previousNumber);
+  const current = parseFloat(currentNumber);
+  if (isNaN(previous) || isNaN(current)) {
+    return;
+  }
+  let result;
+  switch (currentOperator) {
+    case 'add':
+      result = previous + current;  break;
+      case 'subtract':
+        result = previous - current;
+        break;
+      case 'multiply':
+        result = previous * current;
+        break;
+      case 'divide':
+        result = previous / current;
+        break;
+      default:
+        return;
+    }
+    currentNumber = result.toString();
+    currentOperator = null;
+    shouldReset = true;
+    updateResult();
+    }
+    
+    function reset() {
+    currentNumber = '';
+    previousNumber = '';
+    currentOperator = null;
+    shouldReset = false;
+    }
+    
+    function updateResult() {
+    result.value = currentNumber || '0';
+    }      
+    function handleNumberClick(number) {
+        if (shouldReset) {
+          reset();
+        }
+        currentNumber += number;
+        updateResult();
+      }
+      function handleOperationClick(operation) {
+  if (currentOperation && currentNumber) {
+    calculateResult();
+  }
+  currentOperation = operation;
+  previousNumber = parseFloat(currentNumber);
+  shouldReset = true;
+}
+for (let i = 0; i < operationButtons.length; i++) {
+  operationButtons[i].addEventListener('click', function() {
+    handleOperationClick(operationButtons[i].innerText);
+  });
+}
+
+
+</script>
+</html>

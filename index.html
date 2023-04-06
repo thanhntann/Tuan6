@@ -29,11 +29,13 @@
   <div id="timer">0:00</div>
   <button id="start-btn">Start</button>
   <button id="stop-btn">Stop</button>
+  <button id="resest-btn">Resest</button>
   
   <script>
     let timerElement = document.getElementById('timer');
     let startButton = document.getElementById('start-btn');
     let stopButton = document.getElementById('stop-btn');
+    let resestButton = document.getElementById('resest-btn');
     let intervalId;
     let startTime;
     
@@ -49,7 +51,11 @@
       startButton.disabled = false;
       stopButton.disabled = true;
     }
-    
+    function resetTimer() {
+      clearInterval(timerInterval);
+      elapsedTime = 0;
+      display.textContent = formatTime(elapsedTime);
+    }
     function updateTimer() {
       let elapsedTime = Date.now() - startTime;
       let minutes = Math.floor(elapsedTime / 60000);
@@ -57,10 +63,13 @@
       let milliseconds = Math.floor((elapsedTime - minutes * 60000 - seconds * 1000) / 10);
       timerElement.innerText = `${minutes}:${String(seconds).padStart(2, '0')}.${String(milliseconds).padStart(2, '0')}`;
     }
-    
+    function padZero(num) {
+  return (num < 10 ? '0' : '') + num;
+}
+
     startButton.addEventListener('click', startTimer);
     stopButton.addEventListener('click', stopTimer);
-
+    resetBtn.addEventListener('click', resetTimer);
 </script>
     </div>
 </body>
